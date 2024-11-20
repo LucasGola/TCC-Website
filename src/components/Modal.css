@@ -1,13 +1,27 @@
 /* src/components/Modal.css */
 
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    /* Impede o overflow horizontal */
+}
+
 .plant-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    /* Garante que o cabeçalho preencha a largura do contêiner */
+    box-sizing: border-box;
+    /* Inclui padding e border na largura total */
 }
 
 .icon-container {
     display: flex;
+    justify-content: flex-end;
+    /* Alinha os ícones à direita */
 }
 
 .icon-button {
@@ -32,6 +46,26 @@
 
 .delete-icon:hover {
     color: #c0392b;
+}
+
+ul {
+    width: 100%;
+    /* Garante que a lista preencha a largura do contêiner */
+    padding: 0;
+    list-style-type: none;
+}
+
+li {
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    /* Garante que os itens da lista preencham a largura do contêiner */
+    overflow: hidden;
+    /* Impede o overflow horizontal nos itens da lista */
 }
 
 .modal-overlay {
