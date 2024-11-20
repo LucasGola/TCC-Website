@@ -1,6 +1,6 @@
 // src/components/ConfirmDeleteModal.jsx
 import React from 'react';
-import './Modal.css'; // Utilizando o mesmo estilo do modal anterior
+import '../Modal/Modal.css'; // Utilizando o mesmo estilo do modal anterior
 
 const ConfirmDeleteModal = ({ plant, onClose, onDelete }) => {
     return (

@@ -1,14 +1,14 @@
-// src/components/PlantList.jsx
+// src/components/PlantList/PlantList.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import PlantEditForm from './PlantEditForm';
-import Modal from './Modal';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
-import PlantRegisterForm from './PlantRegisterForm';
-import Alert from './Alert';
+import PlantEditForm from '../PlantEditForm/PlantEditForm';
+import Modal from '../Modal/Modal';
+import ConfirmDeleteModal from '../ConfirmDeleteModal/ConfirmDeleteModal';
+import PlantRegisterForm from '../PlantRegisterForm/PlantRegisterForm';
+import Alert from '../Alert/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import './PlantList.css'; // Importar o CSS específico
+import './PlantList.css';
 
 const PlantList = () => {
     const [plants, setPlants] = useState([]);
@@ -80,7 +80,7 @@ const PlantList = () => {
     };
 
     return (
-        <div className="plant-list" style={{ width: '100%' }}>
+        <div style={{ width: '100%' }}>
             <h2>Lista de Plantas</h2>
             <button onClick={handleRegisterClick} className="register-button">
                 <FontAwesomeIcon icon={faPlus} /> Adicionar Planta
@@ -116,8 +116,6 @@ const PlantList = () => {
                     <ConfirmDeleteModal plant={plantToDelete} onClose={() => setPlantToDelete(null)} onDelete={handleDeletePlant} />
                 </Modal>
             )}
-
-
 
             {isRegistering && (
                 <Modal onClose={() => setIsRegistering(false)}>

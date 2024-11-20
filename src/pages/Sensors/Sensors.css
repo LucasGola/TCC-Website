@@ -1,0 +1,105 @@
+/* src/pages/Sensors/Sensors.css */
+
+.sensors-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background-color: #4CAF50;
+    /* Cor de fundo verde */
+    border: none;
+    /* Remove bordas */
+    color: white;
+    /* Texto branco */
+    padding: 14px 20px;
+    /* Espaçamento */
+    cursor: pointer;
+    /* Ícone de cursor */
+    font-size: 17px;
+    /* Aumenta o tamanho da fonte */
+    transition: 0.3s;
+    /* Adiciona um efeito de transição */
+    border-radius: 5px 5px 0 0;
+    /* Canto arredondado superior */
+    margin: 0 5px;
+    /* Espaçamento entre os botões */
+}
+
+.tabs button:hover {
+    background-color: #45a049;
+    /* Verde mais escuro ao passar o mouse */
+}
+
+.tabs button.active {
+    background-color: #3e8e41;
+    /* Verde mais escuro para a aba ativa */
+    border-bottom: 2px solid #fff;
+    /* Remove borda inferior da aba ativa */
+}
+
+.tab-content {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 0 0 5px 5px;
+    width: 90%;
+    /* Aumenta a largura da tabela */
+    margin: auto;
+    /* Centraliza a tabela */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Adiciona sombra */
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: black;
+    cursor: pointer;
+    /* Muda o cursor ao passar o mouse sobre o cabeçalho */
+}
+
+table th:hover {
+    background-color: #ddd;
+    /* Muda a cor de fundo ao passar o mouse sobre o cabeçalho */
+}
+
+table th .sort-icon {
+    margin-left: 5px;
+    /* Espaçamento entre o texto e o ícone */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
