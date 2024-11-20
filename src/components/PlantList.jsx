@@ -4,15 +4,18 @@ import axios from 'axios';
 import PlantEditForm from './PlantEditForm';
 import Modal from './Modal';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import PlantRegisterForm from './PlantRegisterForm';
 import Alert from './Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import './PlantList.css'; // Importar o CSS específico
 
 const PlantList = () => {
     const [plants, setPlants] = useState([]);
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [plantToDelete, setPlantToDelete] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
+    const [isRegistering, setIsRegistering] = useState(false);
 
     useEffect(() => {
         fetchPlants();
@@ -63,17 +66,29 @@ const PlantList = () => {
             });
     };
 
+    const handleRegisterClick = () => {
+        setIsRegistering(true);
+    };
+
+    const handleRegisterPlant = (newPlant) => {
+        setPlants((prevPlants) => [...prevPlants, newPlant]);
+        setIsRegistering(false);
+    };
+
     const handleCloseAlert = () => {
         setAlertMessage('');
     };
 
     return (
-        <div style={{ width: '100%' }}>
+        <div className="plant-list" style={{ width: '100%' }}>
             <h2>Lista de Plantas</h2>
+            <button onClick={handleRegisterClick} className="register-button">
+                <FontAwesomeIcon icon={faPlus} /> Adicionar Planta
+            </button>
             {alertMessage && <Alert message={alertMessage} onClose={handleCloseAlert} />}
             <ul>
-                {plants.map(plant => (
-                    <li key={plant.id}>
+                {plants.map((plant, index) => (
+                    <li key={plant.id || index}>
                         <div className="plant-header">
                             <h3>{plant.name} ({plant.type})</h3>
                             <div className="icon-container">
@@ -97,10 +112,20 @@ const PlantList = () => {
             )}
 
             {plantToDelete && (
-                <ConfirmDeleteModal plant={plantToDelete} onClose={() => setPlantToDelete(null)} onDelete={handleDeletePlant} />
+                <Modal onClose={() => setPlantToDelete(null)}>
+                    <ConfirmDeleteModal plant={plantToDelete} onClose={() => setPlantToDelete(null)} onDelete={handleDeletePlant} />
+                </Modal>
+            )}
+
+
+
+            {isRegistering && (
+                <Modal onClose={() => setIsRegistering(false)}>
+                    <PlantRegisterForm onClose={() => setIsRegistering(false)} onRegister={handleRegisterPlant} />
+                </Modal>
             )}
         </div>
     );
-}
+};
 
 export default PlantList;

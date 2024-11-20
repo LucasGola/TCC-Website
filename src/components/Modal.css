@@ -1,73 +1,5 @@
 /* src/components/Modal.css */
 
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    /* Impede o overflow horizontal */
-}
-
-.plant-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    /* Garante que o cabeçalho preencha a largura do contêiner */
-    box-sizing: border-box;
-    /* Inclui padding e border na largura total */
-}
-
-.icon-container {
-    display: flex;
-    justify-content: flex-end;
-    /* Alinha os ícones à direita */
-}
-
-.icon-button {
-    cursor: pointer;
-    margin-left: 10px;
-    font-size: 1.5rem;
-}
-
-.edit-icon {
-    color: #3498db;
-}
-
-.edit-icon:hover {
-    color: #2980b9;
-}
-
-.delete-icon {
-    color: #e74c3c;
-    margin-right: 10px;
-    /* Adiciona margem à direita */
-}
-
-.delete-icon:hover {
-    color: #c0392b;
-}
-
-ul {
-    width: 100%;
-    /* Garante que a lista preencha a largura do contêiner */
-    padding: 0;
-    list-style-type: none;
-}
-
-li {
-    background: #f9f9f9;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    width: 100%;
-    /* Garante que os itens da lista preencham a largura do contêiner */
-    overflow: hidden;
-    /* Impede o overflow horizontal nos itens da lista */
-}
-
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -79,7 +11,6 @@ li {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    transition: opacity 0.3s ease;
 }
 
 .modal-content {
@@ -88,11 +19,10 @@ li {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
-    width: 90%;
+    width: 100%;
     max-width: 600px;
     max-height: 80vh;
     overflow-y: auto;
-    animation: slide-in 0.3s ease-out;
 }
 
 .modal-close {
@@ -108,52 +38,4 @@ li {
 
 .modal-close:hover {
     color: #666;
-}
-
-.warning-text {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 20px;
-}
-
-.delete-button {
-    background-color: #e74c3c;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.delete-button:hover {
-    background-color: #c0392b;
-}
-
-.cancel-button {
-    background-color: #95a5a6;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.cancel-button:hover {
-    background-color: #7f8c8d;
-}
-
-@keyframes slide-in {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
