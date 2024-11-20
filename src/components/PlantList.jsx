@@ -1,4 +1,4 @@
-// src/PlantList.jsx
+// src/components/PlantList.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PlantEditForm from './PlantEditForm';
@@ -9,6 +9,10 @@ const PlantList = () => {
     const [selectedPlant, setSelectedPlant] = useState(null);
 
     useEffect(() => {
+        fetchPlants();
+    }, []);
+
+    const fetchPlants = () => {
         const baseURL = import.meta.env.VITE_REACT_APP_API_BASE_URL;
         const endpoint = '/plants/info/all';
         axios.get(`${baseURL}${endpoint}`)
@@ -18,14 +22,15 @@ const PlantList = () => {
             .catch(error => {
                 console.error('Erro ao buscar plantas', error);
             });
-    }, []);
+    };
 
     const handleEditClick = (plant) => {
         setSelectedPlant(plant);
     };
 
-    const handleUpdatePlant = (updatedPlant) => {
-        setPlants(plants.map(plant => plant.id === updatedPlant.id ? updatedPlant : plant));
+    const handleUpdatePlant = () => {
+        // Após atualizar uma planta, re-fetch a lista de plantas para refletir as mudanças
+        fetchPlants();
         setSelectedPlant(null);
     };
 
@@ -40,6 +45,7 @@ const PlantList = () => {
                         <p>Mínimo de Umidade: {plant.minWaterPercent}%</p>
                         <p>Temperatura: {plant.minTemperatureClimate}°C - {plant.maxTemperatureClimate}°C</p>
                         <p>Frequência de Irrigação: {plant.irrigationFrequency} horas</p>
+                        <p>Ativa: {plant.isActive ? 'Sim' : 'Não'}</p>
                         <button onClick={() => handleEditClick(plant)}>Editar</button>
                     </li>
                 ))}

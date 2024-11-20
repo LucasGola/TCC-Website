@@ -7,8 +7,11 @@ const PlantEditForm = ({ plant, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({ ...plant });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
     };
 
     const handleSubmit = (e) => {
@@ -16,10 +19,13 @@ const PlantEditForm = ({ plant, onClose, onUpdate }) => {
         const baseURL = import.meta.env.VITE_REACT_APP_API_BASE_URL;
         const endpoint = '/plants/update-info';
 
-        axios.post(`${baseURL}${endpoint}`, formData)
+        // Incluindo o plantId no corpo da requisição
+        const payload = { plantId: formData.id, ...formData };
+
+        axios.put(`${baseURL}${endpoint}`, payload)
             .then(response => {
                 console.log('Planta atualizada com sucesso:', response.data);
-                onUpdate(response.data.data);
+                onUpdate();
             })
             .catch(error => {
                 console.error('Erro ao atualizar planta', error);
@@ -56,6 +62,10 @@ const PlantEditForm = ({ plant, onClose, onUpdate }) => {
             <label>
                 Frequência de Irrigação (horas):
                 <input type="number" name="irrigationFrequency" value={formData.irrigationFrequency} onChange={handleChange} />
+            </label>
+            <label>
+                Ativa:
+                <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} />
             </label>
             <button type="submit">Salvar</button>
             <button type="button" onClick={onClose}>Cancelar</button>
