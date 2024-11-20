@@ -1,11 +1,11 @@
 // src/components/PlantList.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import PlantEditForm from './PlantEditForm';
-import Modal from './Modal';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
-import PlantRegisterForm from './PlantRegisterForm';
-import Alert from './Alert';
+import PlantEditForm from '../PlantEditForm/PlantEditForm';
+import Modal from '../Modal/Modal';
+import ConfirmDeleteModal from '../ConfirmDeleteModal/ConfirmDeleteModal';
+import PlantRegisterForm from '../PlantRegisterForm/PlantRegisterForm';
+import Alert from '../Alert/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './PlantList.css'; // Importar o CSS específico

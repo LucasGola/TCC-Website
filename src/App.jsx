@@ -1,17 +1,13 @@
-import Header from './components/Header';
-import PlantList from './components/PlantList';
+// src/App.jsx
+import Home from './pages/Home/Home';
+import './styles.css';
 
 const App = () => {
   return (
-    <>
-      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Header />
-        <main style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <PlantList />
-        </main>
-      </div>
-    </>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Home />
+    </div>
   );
-}
+};
 
 export default App;
