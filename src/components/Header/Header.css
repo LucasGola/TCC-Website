@@ -42,3 +42,9 @@
     background-color: #fff;
     color: #000;
 }
+
+.nav-menu ul li a.active {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+}

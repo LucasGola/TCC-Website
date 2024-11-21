@@ -1,6 +1,6 @@
 // src/components/Header/Header.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
@@ -11,9 +11,9 @@ const Header = () => {
       </div>
       <nav className="nav-menu">
         <ul>
-          <li><Link to="/">Plantas</Link></li>
-          <li><Link to="/sensores">Sensores</Link></li>
-          <li><Link to="/logs">Logs</Link></li>
+          <li><NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Plantas</NavLink></li>
+          <li><NavLink to="/sensores" className={({ isActive }) => (isActive ? 'active' : '')}>Sensores</NavLink></li>
+          <li><NavLink to="/analise-de-dados" className={({ isActive }) => (isActive ? 'active' : '')}>Análises</NavLink></li>
         </ul>
       </nav>
     </header>

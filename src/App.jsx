@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Sensors from './pages/Sensors/Sensors';
-import Logs from './pages/Logs/Logs';
+import DataAnalysis from './pages/DataAnalysis/DataAnalysis';
 import './styles.css';
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sensores" element={<Sensors />} />
-        <Route path="/logs" element={<Logs />} />
+        <Route path="/analise-de-dados" element={<DataAnalysis />} />
       </Routes>
     </BrowserRouter>
   );

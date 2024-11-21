@@ -1,0 +1,13 @@
+/* src/pages/DataAnalysis/DataAnalysis.css */
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}

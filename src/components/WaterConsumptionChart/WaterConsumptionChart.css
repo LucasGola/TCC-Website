@@ -1,0 +1,33 @@
+/* src/components/WaterConsumptionChart/WaterConsumptionChart.css */
+
+.selector-container {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+}
+
+.selector-container label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.selector-container select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+.selector-container select:hover {
+    border-color: #888;
+}
+
+.selector-container select:focus {
+    border-color: #555;
+    outline: none;
+}
