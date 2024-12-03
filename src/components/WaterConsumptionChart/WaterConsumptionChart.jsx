@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
+import moment from 'moment';
 import './WaterConsumptionChart.css';  // Importar o CSS
 
 // Registrar os componentes necessários do Chart.js
@@ -49,7 +50,7 @@ const WaterConsumptionChart = () => {
         let formattedData;
         switch (interval) {
             case 'weekly':
-                formattedData = aggregateData(data, 'week');
+                formattedData = aggregateData(data, 'isoWeek');
                 break;
             case 'monthly':
                 formattedData = aggregateData(data, 'month');
@@ -58,11 +59,14 @@ const WaterConsumptionChart = () => {
                 formattedData = aggregateData(data, 'year');
                 break;
             default:
-                formattedData = data;
+                formattedData = data.map(entry => ({
+                    ...entry,
+                    createdAt: moment(entry.createdAt).format('DD/MM/YYYY')
+                }));
         }
 
         return {
-            labels: formattedData.map(entry => new Date(entry.createdAt).toLocaleDateString()),
+            labels: formattedData.map(entry => entry.createdAt),
             datasets: [
                 {
                     label: 'Consumo de Água (L)',
@@ -80,22 +84,21 @@ const WaterConsumptionChart = () => {
         const aggregation = {};
 
         data.forEach((entry) => {
-            const entryDate = new Date(entry.createdAt);
+            const entryDate = moment(entry.createdAt);
             let key;
 
             switch (interval) {
-                case 'week':
-                    const startOfWeek = new Date(entryDate.setDate(entryDate.getDate() - entryDate.getDay()));
-                    key = `${startOfWeek.getFullYear()}-${startOfWeek.getMonth() + 1}-${startOfWeek.getDate()}`;
+                case 'isoWeek':
+                    key = entryDate.startOf('isoWeek').format('DD/MM/YYYY');
                     break;
                 case 'month':
-                    key = `${entryDate.getFullYear()}-${entryDate.getMonth() + 1}`;
+                    key = entryDate.startOf('month').format('MM/YYYY');
                     break;
                 case 'year':
-                    key = `${entryDate.getFullYear()}`;
+                    key = entryDate.startOf('year').format('YYYY');
                     break;
                 default:
-                    key = `${entryDate.getFullYear()}-${entryDate.getMonth() + 1}-${entryDate.getDate()}`;
+                    key = entryDate.format('DD/MM/YYYY');
             }
 
             if (!aggregation[key]) {
@@ -108,7 +111,7 @@ const WaterConsumptionChart = () => {
         for (const key in aggregation) {
             aggregatedData.push({
                 measurement: aggregation[key],
-                createdAt: new Date(key),
+                createdAt: key,
             });
         }
 
@@ -133,7 +136,26 @@ const WaterConsumptionChart = () => {
             </div>
             {chartData ? (
                 <div style={{ height: '500px', width: '100%' }}>
-                    <Line data={chartData} options={{ maintainAspectRatio: false }} />
+                    <Line
+                        data={chartData}
+                        options={{
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Litros'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Data'
+                                    }
+                                }
+                            }
+                        }}
+                    />
                 </div>
             ) : (
                 <p>Carregando dados...</p>
