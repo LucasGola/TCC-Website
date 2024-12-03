@@ -32,7 +32,7 @@ const Sensors = () => {
     const fetchIrrigationData = async () => {
         try {
             const baseURL = import.meta.env.VITE_REACT_APP_API_BASE_URL;
-            const response = await axios.get(`${baseURL}/events/timeline`);
+            const response = await axios.get(`${baseURL}/events/timeline/all`);
             setIrrigationData(response.data.data);
         } catch (error) {
             console.error('Erro ao buscar dados de irrigação:', error);
