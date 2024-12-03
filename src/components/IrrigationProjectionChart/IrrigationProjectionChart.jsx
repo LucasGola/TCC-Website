@@ -28,6 +28,7 @@ ChartJS.register(
 
 const IrrigationProjectionChart = () => {
     const [chartData, setChartData] = useState(null);
+    const [timeInterval, setTimeInterval] = useState('weekly'); // Intervalo de tempo padrão definido como semanal
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,31 +37,104 @@ const IrrigationProjectionChart = () => {
                 const response = await axios.get(`${baseURL}/projections/irrigation`);
                 const data = response.data.projection;
 
-                const formattedData = {
-                    labels: data.map(entry => moment(entry).format('DD/MM/YYYY')),
-                    datasets: [
-                        {
-                            label: 'Horas de Irrigação',
-                            data: data.map(entry => moment(entry).hours() + moment(entry).minutes() / 60),
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                        },
-                    ],
-                };
-
-                setChartData(formattedData);
+                setChartData(formatData(data, timeInterval));
             } catch (error) {
                 console.error('Erro ao buscar dados de projeção de irrigação:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [timeInterval]); // Reexecutar a busca de dados quando o intervalo de tempo mudar
+
+    const formatData = (data, interval) => {
+        let formattedData;
+        switch (interval) {
+            case 'weekly':
+            case 'monthly':
+                formattedData = aggregateData(data, interval);
+                break;
+            default:
+                formattedData = data.map(entry => ({
+                    createdAt: moment(entry).format('DD/MM/YYYY HH:mm'),
+                    count: 1
+                }));
+        }
+
+        return {
+            labels: formattedData.map(entry => entry.createdAt),
+            datasets: [
+                {
+                    label: 'Projeção de Irrigações',
+                    data: formattedData.map(entry => entry.count),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    pointRadius: 5, // Tamanho dos pontos no gráfico
+                    pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                },
+            ],
+        };
+    };
+
+    const aggregateData = (data, interval) => {
+        const aggregation = {};
+
+        data.forEach((entry) => {
+            const entryDate = moment(entry);
+            let key;
+
+            switch (interval) {
+                case 'weekly':
+                    key = entryDate.startOf('isoWeek').format('DD/MM/YYYY');
+                    break;
+                case 'monthly':
+                    key = entryDate.startOf('month').format('MM/YYYY');
+                    break;
+                default:
+                    key = entryDate.format('DD/MM/YYYY');
+            }
+
+            if (!aggregation[key]) {
+                aggregation[key] = 0;
+            }
+
+            aggregation[key] += 1;
+        });
+
+        const aggregatedData = Object.keys(aggregation).map(key => {
+            let formattedDate;
+            switch (interval) {
+                case 'monthly':
+                    formattedDate = moment(key, 'MM/YYYY').format('MM/YYYY');
+                    break;
+                default:
+                    formattedDate = key;
+            }
+
+            return {
+                count: aggregation[key],
+                createdAt: formattedDate,
+            };
+        });
+
+        return aggregatedData;
+    };
+
+    const handleChangeInterval = (e) => {
+        setTimeInterval(e.target.value);
+    };
 
     return (
         <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-            <h2>Projeção de Irrigação</h2>
+            <h2>Projeção de Irrigações</h2>
+            <div className="selector-container">
+                <label htmlFor="timeInterval">Intervalo de Tempo:</label>
+                <select id="timeInterval" value={timeInterval} onChange={handleChangeInterval}>
+                    <option value="daily">Diário</option>
+                    <option value="weekly">Semanal</option>
+                    <option value="monthly">Mensal</option>
+                </select>
+            </div>
             {chartData ? (
                 <div style={{ height: '500px', width: '100%' }}>
                     <Line
@@ -71,20 +145,13 @@ const IrrigationProjectionChart = () => {
                                 y: {
                                     title: {
                                         display: true,
-                                        text: 'Horas (HH:mm)'
+                                        text: 'Número de Irrigações'
                                     },
-                                    ticks: {
-                                        callback: function (value) {
-                                            const hours = Math.floor(value);
-                                            const minutes = Math.round((value - hours) * 60);
-                                            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-                                        }
-                                    }
                                 },
                                 x: {
                                     title: {
                                         display: true,
-                                        text: 'Data'
+                                        text: 'Data e Hora'
                                     }
                                 }
                             },
@@ -92,10 +159,7 @@ const IrrigationProjectionChart = () => {
                                 tooltip: {
                                     callbacks: {
                                         label: function (tooltipItem) {
-                                            const value = tooltipItem.raw;
-                                            const hours = Math.floor(value);
-                                            const minutes = Math.round((value - hours) * 60);
-                                            return `Horas de Irrigação: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                                            return `Número de Irrigações: ${tooltipItem.raw}`;
                                         }
                                     }
                                 }
