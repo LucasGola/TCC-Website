@@ -80,7 +80,6 @@ const WaterConsumptionChart = () => {
     };
 
     const aggregateData = (data, interval) => {
-        const aggregatedData = [];
         const aggregation = {};
 
         data.forEach((entry) => {
@@ -105,15 +104,27 @@ const WaterConsumptionChart = () => {
                 aggregation[key] = 0;
             }
 
-            aggregation[key] += parseInt(entry.measurement, 10);
+            aggregation[key] += parseFloat(entry.measurement);
         });
 
-        for (const key in aggregation) {
-            aggregatedData.push({
+        const aggregatedData = Object.keys(aggregation).map(key => {
+            let formattedDate;
+            switch (interval) {
+                case 'month':
+                    formattedDate = moment(key, 'MM/YYYY').format('MM/YYYY');
+                    break;
+                case 'year':
+                    formattedDate = key;
+                    break;
+                default:
+                    formattedDate = key;
+            }
+
+            return {
                 measurement: aggregation[key],
-                createdAt: key,
-            });
-        }
+                createdAt: formattedDate,
+            };
+        });
 
         return aggregatedData;
     };
