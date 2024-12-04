@@ -10,10 +10,33 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
 .header-left h1 {
     margin: 0;
     font-size: 1.8rem;
     font-weight: bold;
+    color: #000;
+    /* Cor preta para o título */
+}
+
+.logo {
+    height: 100px;
+    /* Ajuste o tamanho conforme necessário */
+    margin-right: 10px;
+}
+
+.eco {
+    color: #61cd3b;
+    /* Cor verde para "Eco-" */
+}
+
+.inteligente {
+    color: #0f9aca;
+    /* Cor azul para "Inteligente" */
 }
 
 .nav-menu ul {
